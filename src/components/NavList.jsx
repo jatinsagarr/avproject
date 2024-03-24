@@ -29,9 +29,9 @@ function NavList({items = [],data = {isOver : false,listItems : []}}) {
                                     if(index >= data.listItems.length){
                                          return  <li key={value + Math.random().toString()}>
                                                 <div className="dropdown__link">
-                                                    <i className="ri-user-line"></i> {value}
+                                                     <p>{value}</p> <i className="ri-check-line" style={{color:"lightblue"}}></i>
                                                 </div>                          
-                                            </li>;
+                                        </li>;
                                     }
                                })
                             }
