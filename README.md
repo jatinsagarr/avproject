@@ -4,9 +4,9 @@
 
 
 # 🎥 Wacth Video For More Info 
-[![Watch the video]{}](https://youtu.be/VcQWEljd07o)
+## [Watch the video](https://youtu.be/VcQWEljd07o)
 
-### 📝 Both requirements Has Been Completed without Any Third Party Libaray
+### 📝 Both requirements Has Been Completed without Any Third Party Libraries
 - Responsive Dropdown Menu Using HTML CSS & JavaScript & React
 - Contains a responsive navigation bar.
 - Contains dropdown menu & a submenu.
