@@ -1,12 +1,27 @@
 # Live Wokring Url 🔥
 ## [https://avproject.onrender.com/](https://avproject.onrender.com/)
 
-## 📝 Both requirements Has Been Completed without Any Third Party Libaray
+
 
 # 🎥 Wacth Video For More Info 
-[![Watch the video]](demo.mp4)
+[![Watch the video]{}](https://youtu.be/VcQWEljd07o)
 
-# ⭐ Made For Av*taar DTU Project only Using (React & CSS & HTML) ⭐
+### 📝 Both requirements Has Been Completed without Any Third Party Libaray
+- Responsive Dropdown Menu Using HTML CSS & JavaScript & React
+- Contains a responsive navigation bar.
+- Contains dropdown menu & a submenu.
+- Developed first with the Mobile First methodology, then for desktop.
+- Compatible with all mobile devices.
+
+- Build an engaging circular carousel that showcases featured items.
+- Allow users to navigate through the carousel using arrow controls and user interactions
+  with the displayed cards.
+- Upon user interaction with a card, ensure that the carousel smoothly transitions to the
+  main card and highlights the clicked or selected item.
+- The items should rotate continuously in a circular manner, creating an infinite loop of
+  content on navigation
+ 
+### ⭐ Made For Av*taar DTU Project only Using (React & CSS & HTML) ⭐
 
 # Getting Started with Create React App
 
