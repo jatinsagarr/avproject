@@ -102,9 +102,6 @@ a {
 }
 
 .mainContainer{
-  /* position: absolute; */
-  /* top: 10%;
-  bottom: 10%; */
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -132,13 +129,10 @@ a {
   color: gray;
 }
 
-.wrapperContainer{
-    margin-top: 10rem;
-}
+
 .carContainer{
-  margin-top: 15rem;
+  margin-top: 3rem;
   margin-bottom: 3rem;
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -146,14 +140,35 @@ a {
   width: 100%;
 }
 
+.imgWrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .imgParent{
   border-radius: 1.5rem;
-  position: absolute;
-  /* left: 50%; */
-  transform: translate(-50%,0%);
-  width: 35rem;
-  height: 25rem;
+  position: relative;
   box-shadow: 0 0.4rem 0.15rem rgba(173, 216, 230, 0.69);
+  flex-shrink: 0;
+  transition: all 200ms ease;
+  /* height: 25rem;
+  width: 35rem; */
+}
+
+.imgParent > p {
+  position: absolute;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+  font-family: "Lato";
+  font-size: 1rem;
+  padding: 1rem 2rem 1rem 2rem;
+  z-index: 80;
+  border-radius: 0rem 0rem 1.5rem 1.5rem;
+  background-color: #00000063;
 }
 
 .imgContainer{
@@ -171,17 +186,20 @@ a {
   object-fit: cover;
 }
 
-.imgContainer::before{
-  content: attr(data-title);
-  position: absolute;
-  text-align: center;
-  bottom: 0;
-  width: 34rem;
-  color: #fff;
-  font-family: "Lato";
+
+.indicator{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0rem 5rem 0rem;
+  column-gap: 0.5rem;
   font-size: 1rem;
-  padding: 1rem 2rem 1rem 2rem;
-  background-color: #00000063;
+  cursor: pointer;
+  color: grey;
+}
+
+.indicator > i:first-child,.indicator > i:last-child{
+  font-size: 2rem;
 }
 
 /*=============== HEADER ===============*/
