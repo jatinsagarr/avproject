@@ -4,7 +4,7 @@
 
 
 # 🎥 Wacth Video For More Info 
-## [Watch the video](https://youtu.be/VcQWEljd07o)
+[![Watch the video](https://img.youtube.com/vi/VcQWEljd07o/0.jpg)](https://youtu.be/VcQWEljd07o)
 
 ### 📝 Both requirements Has Been Completed without Any Third Party Libraries
 - Responsive Dropdown Menu Using HTML CSS & JavaScript & React
