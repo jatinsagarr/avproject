@@ -1,4 +1,4 @@
-import {useState,useMemo, useRef} from 'react';
+import {useState,useMemo, useRef,useEffect} from 'react';
 
 class SlidesProvider{
     imagesData = [
@@ -19,13 +19,14 @@ class SlidesProvider{
         [-200,-150,-100,-50,0],
         [-300,-250,-200,-150,-100],
     ]
-    // taranslationData = [
-    //     [100,150,200,267,380],
-    //     [0,50,100,166,260],
-    //     [-120,-50,0,50,120],
-    //     [-260,-167,-100,-50,0],
-    //     [-380,-267,-185.8,-150,-100],
-    // ]
+
+    slidesDimensions = [
+        {zindex : 20,height:"var(--slide-height-zero)",width : "var(--slide-width)"},
+        {zindex : 30,height:"var(--slide-height-one)",width : "var(--slide-width)"},
+        {zindex : 40,height:"var(--slide-height-two)",width : "var(--slide-width)"},
+        {zindex : 30,height:"var(--slide-height-one)",width : "var(--slide-width)"},
+        {zindex : 20,height:"var(--slide-height-zero)",width : "var(--slide-width)"},
+    ]
 
     getSlides = (idx) =>{
         return this.slides[idx];
@@ -45,6 +46,14 @@ class SlidesProvider{
         }
         this.slides[0] = lastSlide;
     }
+
+    leftShift = () => {
+        let firstSlide = this.slides[0];
+        for(let idx = 0;idx <this.slides.length - 1;idx++){
+           this.slides[idx] = this.slides[idx + 1];
+        }
+        this.slides[this.slides.length - 1] = firstSlide;
+    }
     setSlides = (idx,value) =>{
        this.slides[idx] = {
           ref : value,
@@ -60,33 +69,14 @@ function Carousel() {
     
     useMemo(() => {
         let idx = 0;
+        
         while(extractData.length < 5){
             let idxTemp = idx % imagesData.length;
-    
-            switch (idxTemp){
-                case 0:
-                    extractData.push({...imagesData[idxTemp],left : "100%",zindex : 20,height:"15rem",width:"35rem"});
-                    break;
-                case 1:
-                    extractData.push({...imagesData[idxTemp],left : "50%",zindex : 30,height:"20rem",width:"35rem"});
-                    break;
-                case 2:
-                    extractData.push({...imagesData[idxTemp],left : "0%",zindex : 40,height:"25rem",width:"35rem"});
-                    break;
-                case 3:
-                    extractData.push({...imagesData[idxTemp],left : "-50%",zindex : 30,height:"20rem",width:"35rem"});
-                    break;
-                case 4:
-                    extractData.push({...imagesData[idxTemp],left : "-100%",zindex : 20,height:"15rem",width:"35rem"});
-                    break;
-                default:
-                    break;
-                
-            }
+            extractData.push({...imagesData[idxTemp],...refObj.slidesDimensions[idxTemp]});
             idx++;
         }
     
-    },[extractData]);
+    },[extractData,refObj.slidesDimensions,imagesData]);
 
     return (
         <div className="carContainer">
@@ -106,88 +96,97 @@ function Carousel() {
 function ImageContainer({value,idx,refObj = new SlidesProvider()}) {
     const ref = useRef();
     refObj.setSlides(idx,ref);
-
-    let transistionData = [
-        {min : "100",max : "300",zindex : 20,height:"15rem",width:"35rem"},
-        {min : "0",max : "200",zindex : 30,height:"20rem",width:"35rem"},
-        {min : "-100",max : "100",zindex : 40,height:"25rem",width:"35rem"},
-        {min : "-200",max : "0",zindex : 30,height:"20rem",width:"35rem"},
-        {min : "-300",max : "-100",zindex : 20,height:"15rem",width:"35rem"},
-    ];
-    // let transistionData = [
-    //     {min : "100",max : "300",zindex : 20,height:"15rem",width:"25rem"},
-    //     {min : "0",max : "200",zindex : 30,height:"20rem",width:"30rem"},
-    //     {min : "-100",max : "100",zindex : 40,height:"25rem",width:"35rem"},
-    //     {min : "-200",max : "0",zindex : 30,height:"20rem",width:"35rem"},
-    //     {min : "-300",max : "-100",zindex : 20,height:"15rem",width:"25rem"},
-    // ];
+    let slide = refObj.getSlides(idx);
 
     return ( 
             <div className="imgParent" ref={ref} style={{
                 zIndex:value.zindex,
                 height:value.height,
                 width:value.width,
-                transform : `translateX(${value.left})`
+                transform : `translateX(${slide.tx[idx]}%)`
             }}>
                 <p>{value.title}</p>
                 <div className="imgContainer">
-                    <img src={value.src} className="mainImage"></img>
+                    <img src={value.src} className="mainImage" alt={value.title}></img>
                 </div>
             </div>
      );
 }
 
-function CarouselController({extractData,refObj = new SlidesProvider()}) {
+function CarouselController({extractData,refObj = new SlidesProvider()}){
     const [cntIdx,setCntIdx] = useState(2);
 
-    let transistionData = [
-        {min : "100",max : "300",zindex : 20,height:"15rem",width:"35rem"},
-        {min : "0",max : "200",zindex : 30,height:"20rem",width:"35rem"},
-        {min : "-100",max : "100",zindex : 40,height:"25rem",width:"35rem"},
-        {min : "-200",max : "0",zindex : 30,height:"20rem",width:"35rem"},
-        {min : "-300",max : "-100",zindex : 20,height:"15rem",width:"35rem"},
-    ];
+    let transistionData = refObj.slidesDimensions;
+    console.log(transistionData);
+    useEffect(() => {
+      let timer = setInterval(()=>{
+           rightNext();
+      },2500);
+
+      return () => {
+         clearInterval(timer);
+      }
+    });
+    
+
+    const rightNext = () => {
+        let slidesLength = refObj.slides.length;
+
+        for(let idx = 0;idx < slidesLength;idx++){
+            const slide = refObj.getSlides(idx);
+            const {current} = slide.ref;
+
+            let nextIdx = (slidesLength - 1 === idx) ? 0 : idx + 1;
+           
+            //console.log(`${idx} ${current.style.height} -- ${current.style.width} ${current.style.transform} ${current.style.zIndex}`);
+      
+            current.style.height = transistionData[nextIdx].height;
+            current.style.width = transistionData[nextIdx].width;
+            current.style.transform = `translateX(${slide.tx[nextIdx]}%)`;
+            current.style.zIndex = transistionData[nextIdx].zindex;
+             
+            //console.log(`${idx} ${current.style.height} -- ${current.style.width} ${current.style.transform} ${current.style.zIndex}`);
+        }
+
+        refObj.rightShift();
+        setCntIdx((cntIdx + 1) % slidesLength);
+        //console.log(refObj.slides);
+    }
+
+    const leftNext = () => {
+        let slidesLength = refObj.slides.length;
+
+        for(let idx = slidesLength - 1;idx >= 0;idx--){
+            const slide = refObj.getSlides(idx);
+            const {current} = slide.ref;
+
+            let prevIdx = (idx === 0) ? slidesLength - 1 : idx - 1;
+           
+            //console.log(`${idx} ${current.style.height} -- ${current.style.width} ${current.style.transform} ${current.style.zIndex}`);
+      
+            current.style.height = transistionData[prevIdx].height;
+            current.style.width = transistionData[prevIdx].width;
+            current.style.transform = `translateX(${slide.tx[prevIdx]}%)`;
+            current.style.zIndex = transistionData[prevIdx].zindex;
+             
+            //console.log(`${idx} ${current.style.height} -- ${current.style.width} ${current.style.transform} ${current.style.zIndex}`);
+        }
+
+        refObj.leftShift();
+        setCntIdx((cntIdx === 0) ? slidesLength - 1 : cntIdx - 1);
+        
+        //console.log(refObj.slides);
+    }
+
     return (  
         <div className='indicator'>
-            <i class="ri-arrow-left-line"></i>
+            <i class="ri-arrow-left-line" onClick={leftNext}></i>
             {
                 extractData.map((value,idx) => {
-                    return <i key={idx} className="ri-checkbox-blank-circle-fill"></i>;
+                    return <i key={idx} className={`ri-checkbox-blank-circle-fill ${(idx === cntIdx) ? "selected" : ""}`}></i>;
                 })
             }
-            <i class="ri-arrow-right-line"  onClick={()=>{
-                console.log("--------------------------");
-                let slidesLength = refObj.slides.length;
-
-                for(let idx = 0;idx < slidesLength;idx++){
-                    const slide = refObj.getSlides(idx);
-                    const {current} = slide.ref;
-
-                    let nextIdx = (slidesLength - 1 == idx) ? 0 : idx + 1;
-                    console.log(slide);
-
-                    console.log(`${idx} ${current.style.height} -- ${current.style.width} ${current.style.transform} ${current.style.zIndex}`);
-              
-                    current.style.height = transistionData[nextIdx].height;
-                    current.style.width = transistionData[nextIdx].width;
-                    current.style.transform = `translateX(${slide.tx[nextIdx]}%)`;
-                    current.style.zIndex = transistionData[nextIdx].zindex;
-                     
-                    console.log(`${idx} ${current.style.height} -- ${current.style.width} ${current.style.transform} ${current.style.zIndex}`);
-                }
-
-                refObj.rightShift();
-                console.log(refObj.slides);
-                
-                
-               
-                // lastRef.current.style.height = transistionData[0].height;
-                // lastRef.current.style.width = transistionData[0].width;
-                // lastRef.current.style.transform = `translateX(${transistionData[lastIndex].min}%)`;
-                // lastRef.current.style.zIndex = transistionData[0].zindex;
-
-
-            }}></i>
+            <i class="ri-arrow-right-line"  onClick={rightNext}></i>
         </div>
     );
 }

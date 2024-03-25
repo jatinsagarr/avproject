@@ -25,6 +25,13 @@
   /*========== z index ==========*/
   --z-tooltip: 10;
   --z-fixed: 100;
+
+  /*========== slide card height and width ==========*/
+  --slide-height-zero : 15rem;
+  --slide-height-one : 20rem;
+  --slide-height-two : 25rem;
+  --slide-width : 35rem;
+
 }
 
 /*========== Responsive typography ==========*/
@@ -45,6 +52,9 @@ body {
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   background-color: var(--body-color);
+}
+body::-webkit-scrollbar{
+  width: 0;
 }
 
 ul {
@@ -105,10 +115,11 @@ a {
   display: flex;
   flex-direction: column;
   width: 100%;
-  justify-content: center;
+  justify-content: start;
   height: 100vh;
   align-items: center;
   margin: 8rem 0rem 0rem 0rem;
+  overflow: hidden;
 }
 .heading-text{
   display: flex;
@@ -153,8 +164,6 @@ a {
   box-shadow: 0 0.4rem 0.15rem rgba(173, 216, 230, 0.69);
   flex-shrink: 0;
   transition: all 200ms ease;
-  /* height: 25rem;
-  width: 35rem; */
 }
 
 .imgParent > p {
@@ -166,9 +175,9 @@ a {
   font-family: "Lato";
   font-size: 1rem;
   padding: 1rem 2rem 1rem 2rem;
-  z-index: 80;
-  border-radius: 0rem 0rem 1.5rem 1.5rem;
+  border-radius: 0 0 1.5rem 1.5rem;
   background-color: #00000063;
+  z-index: 80;
 }
 
 .imgContainer{
@@ -180,6 +189,7 @@ a {
   width: 100%;
   height: 100%;
 }
+
 .imgContainer > img{
   width: 100%;
   height: 100%;
@@ -196,6 +206,9 @@ a {
   font-size: 1rem;
   cursor: pointer;
   color: grey;
+}
+.indicator .selected {
+  color: skyblue;
 }
 
 .indicator > i:first-child,.indicator > i:last-child{
@@ -291,6 +304,59 @@ a {
     background-color: var(--black-color);
     padding-top: 1rem;
   }
+
+  .heading-text > h1 {
+    font-family: "Lato";
+    font-size: 2.5rem;
+    font-weight: 1000;
+    margin-bottom: 1rem;
+  }
+
+  .search-box{
+    display: none;
+  }
+
+  .carContainer{
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  
+  .imgParent{
+    border-radius: 1rem;
+    position: relative;
+    box-shadow: 0 0.2rem 0.10rem rgba(173, 216, 230, 0.69);
+  }
+  
+  .imgParent > p {
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    color: #fff;
+    font-family: "Lato";
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0 0 1rem 1rem;
+    background-color: #00000063;
+    z-index: 80;
+  }
+  :root{
+    --slide-height-zero : 8rem;
+    --slide-height-one : 10rem;
+    --slide-height-two : 15rem;
+    --slide-width : 15rem;
+  }
+  
+  .imgContainer{
+    border-radius: 1rem;
+  }
+
 }
 
 .nav__link {
@@ -398,6 +464,8 @@ a {
 .dropdown__sublink {
   background-color: var(--black-color-lighten);
 }
+
+
 
 /*=============== BREAKPOINTS ===============*/
 /* For small devices */
